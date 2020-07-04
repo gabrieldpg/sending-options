@@ -11,3 +11,6 @@ export const FINAL_SETTLEMENT_FIGURE = 'Final Settlement Figure';
 export const PAYMENT_CONFIRMATION = 'Payment Confirmation';
 export const PURCHASE_CONFIRMATION = 'Purchase Confirmation';
 export const WSS_REGISTRATION = 'WSS Registration';
+
+
+export const TEST_FORM = 'Test Form';
