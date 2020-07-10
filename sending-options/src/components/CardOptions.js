@@ -1,37 +1,31 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
 import * as Constants from '../constants/cards';
 
-class CardOptions extends Component {
+function CardOptions() {
 
-    renderCardOptions() {
-
-        const cards = [Constants.QC, Constants.FFC, Constants.QMC, Constants.FLC, Constants.FAR];
-        
-        let cardOptions = cards.map(card => {
-            const url = card.replace(/ /g, '-').toLowerCase();
-            return (
-                <div>
-                    <NavLink to={ this.props.location.pathname+'/'+url }> { card } </NavLink> 
-                    <br/>
-            </div>);
-        });
-
-        return cardOptions;
-    }
-
-    render() {
-
+    const { pathname } = useLocation();
+    const { document } = useParams();
+    const cards = [Constants.QC, Constants.FFC, Constants.QMC, Constants.FLC, Constants.FAR];
+    
+    let cardOptions = cards.map(card => {
+        const url = card.replace(/ /g, '-').toLowerCase();
         return (
-        <div>
-            <div>CardOptions page for { this.props.match.params.document } </div>
-            <br/>
-            <div>Choose a card:</div>
-            <br/>
-            <div>{ this.renderCardOptions() }</div>
-        </div>
-        );
-    }
+            <div>
+                <NavLink to={ pathname+'/'+url }> { card } </NavLink> 
+                <br/>
+        </div>);
+    });
+
+    return (
+    <div>
+        <div>CardOptions page for { document } </div>
+        <br/>
+        <div>Choose a card:</div>
+        <br/>
+        <div>{ cardOptions }</div>
+    </div>
+    );
 }
 
 export default CardOptions;
