@@ -12,28 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
+const dbHandler_1 = __importDefault(require("./dbHandler"));
+const db = new dbHandler_1.default();
+db.connect();
 const app = express_1.default();
 const port = 3000;
-const dbUrl = 'mongodb://127.0.0.1:27017/sending-options';
-mongoose_1.default.connect(dbUrl, { useNewUrlParser: true });
-const db = mongoose_1.default.connection;
-db.once('open', _ => {
-    console.log('Database connected:', dbUrl);
-});
-db.on('error', err => {
-    console.error('connection error:', err);
-});
 app.get('/', (req, res) => {
     res.send('The sedulous hyena ate the antelope!');
 });
-const Cards = mongoose_1.default.model('cards', mongoose_1.default.Schema({
-    name: String
-}));
 app.get('/cards', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const filter = {}; // so all items are returned
-    const all = yield Cards.find(filter);
-    res.json(all);
+    res.json(yield db.getCollection('cards'));
 }));
 app.listen(port, err => {
     if (err) {

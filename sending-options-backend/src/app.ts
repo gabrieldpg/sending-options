@@ -1,33 +1,18 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import dbHandler from './dbHandler';
+
+const db = new dbHandler();
+db.connect();
 
 const app = express();
 const port = 3000;
-
-const dbUrl = 'mongodb://127.0.0.1:27017/sending-options';
-mongoose.connect(dbUrl, { useNewUrlParser: true });
-
-const db = mongoose.connection;
-db.once('open', _ => {
-  console.log('Database connected:', dbUrl)
-});
-
-db.on('error', err => {
-  console.error('connection error:', err)
-});
 
 app.get('/', (req, res) => {
   res.send('The sedulous hyena ate the antelope!');
 });
 
-const Cards = mongoose.model('cards', mongoose.Schema({
-    name: String
-}));
-
 app.get('/cards', async (req, res) => {
-    const filter = {}; // so all items are returned
-    const all = await Cards.find(filter);
-    res.json(all);
+  res.json(await db.getCollection('cards'));
 });
 
 app.listen(port, err => {
