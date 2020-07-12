@@ -1,65 +1,42 @@
-import mongoose from 'mongoose';
-import CardsDbHandler from './CardsDbHandler';
+import { cardsModel } from '../models/cardsModel';
 
-// Handles database connection and
-// directs database requets to correct colletion for handling
+// 
 
 export default class DbHandler {
 
-    // get instance of cards database handler
-    private cardsDb = new CardsDbHandler();
+    private collection;
+    private model;
 
-    // connect to mongodb using mongoose
-    connect() {
-        const dbUrl = 'mongodb://127.0.0.1:27017/sending-options';
-        mongoose.connect(dbUrl, { useNewUrlParser: true });
-
-        // get connection and log whether connected successfully or error
-        const db = mongoose.connection;
-        db.once('open', _ => {
-        console.log('Database connected:', dbUrl)
-        });
-
-        db.on('error', err => {
-        console.error('Connection error:', err)
-        });
-    }
-
-    postCollectionItem(collection, item) {
+    constructor(collection) {
         switch(collection) {
             case 'cards':
-                this.cardsDb.postCard(item);
-                break;
-            case 'document-templates':
-                break;
-            case 'fields':
+                this.model = cardsModel;
                 break;
             default:
-                console.log('collection doesnt exist');
         }
+        this.collection = collection;
     }
 
-    async getCollection(collection) {
-        let result;
-        switch(collection) {
+    // add new item
+    post(item) {
+        switch(this.collection) {
             case 'cards':
-                result = await this.cardsDb.getCards();
+                new this.model({ name: item.cardname }).save(function (err, card) {
+                    if (err) console.log(err);
+                    console.log('saved card to db: ', card);
+                });
                 break;
             default:
-                result = collection+' is not a valid collection';
-        }
-        return result;
+        }        
     }
 
-    async getCollectionItem(collection, itemId) {
-        let result;
-        switch(collection) {
-            case 'cards':
-                result = await this.cardsDb.getCard(itemId);
-                break;
-            default:
-                result = collection+' is not a valid collection';
-        }
-        return result;
+    // get all items
+    async getAll() {
+        return await this.model.find();
+    }
+
+    // get item from id
+    async getById(id) {
+        return await this.model.findById(id);
     }
 }
