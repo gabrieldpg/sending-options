@@ -1,19 +1,28 @@
-// get instance of express and database
+/*
+  Startpoint of app, starts database and server, and setup routing
+*/
+
+
 const express = require('express');
 const app = express();
-const db = require('./db');
+const database = require('./database');
+const routes = require('./routes');
+const port = process.env.PORT || 3000;
 
-// get template controller and direct templates path to it
-const TemplateController = require('./template/TemplateController');
-app.use('/templates', TemplateController);
+try {
+    database.startDatabase('mongodb://127.0.0.1:27017/sending-options');
+} catch (error) {
+    console.log(error);
+}
 
-// get field controller and direct fields path to it
-const FieldController = require('./field/FieldController');
-app.use('/fields', FieldController);
 
-// advise user that server is connected and ready to receive requests
-app.use('/', function (req, res) {
-    res.status(200).send('Server is connected');
+app.use('/fields', routes.fields);
+app.use('/templates', routes.templates);
+
+app.use('/', function (request, response) {
+    response.json({ message: 'Server is connected' });
 });
 
-module.exports = app;
+app.listen(port, function() {
+  console.log('Express server listening on http://localhost:'+port);
+});
