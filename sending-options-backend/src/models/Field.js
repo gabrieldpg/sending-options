@@ -12,6 +12,5 @@ const FieldSchema = new mongoose.Schema({
   name: { type: String, required: true },
   key: { type: String, required: true }
 });
-mongoose.model('Field', FieldSchema);
 
-module.exports = mongoose.model('Field');
+module.exports = mongoose.model('Field', FieldSchema);

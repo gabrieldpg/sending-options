@@ -16,6 +16,5 @@ const TemplateSchema = new mongoose.Schema({
   attachment: { type: Boolean, required: true },
   fields: [mongoose.Types.ObjectId]
 });
-mongoose.model('Template', TemplateSchema);
 
-module.exports = mongoose.model('Template');
+module.exports = mongoose.model('Template', TemplateSchema);

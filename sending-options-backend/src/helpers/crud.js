@@ -5,7 +5,7 @@
 
 
 // get all items from model
-exports.getAll = async function(request, response, next, model) {
+async function getAll(request, response, next, model) {
     try {
         const resource = await model.find().exec();
         if (!resource) {
@@ -19,7 +19,7 @@ exports.getAll = async function(request, response, next, model) {
 }
 
 // get single item from model
-exports.getSingle = async function(request, response, next, model) {
+async function getSingle(request, response, next, model) {
     try {
         const resource = await model.findById(request.params.id).exec();
         if (!resource) {
@@ -33,7 +33,7 @@ exports.getSingle = async function(request, response, next, model) {
 }
 
 // create new item for model
-exports.create = async function(request, response, next, model) {
+async function create(request, response, next, model) {
     try {
         const resource = await model.create(request.body);
         if (!resource) {
@@ -47,7 +47,7 @@ exports.create = async function(request, response, next, model) {
 }
 
 // update item from model
-exports.update = async function(request, response, next, model) {
+async function update(request, response, next, model) {
     try {
         const resource = await model.findByIdAndUpdate(request.params.id, request.body, { new: true }).exec();
         if (!resource) {
@@ -62,7 +62,7 @@ exports.update = async function(request, response, next, model) {
 }
 
 // remove item from model
-exports.remove = async function(request, response, next, model) {
+async function remove(request, response, next, model) {
     try {
         const resource = await model.findByIdAndRemove(request.params.id).exec();
         if (!resource) {
@@ -73,4 +73,12 @@ exports.remove = async function(request, response, next, model) {
     } catch(error) {
         return next(error);
     }
+}
+
+module.exports = {
+    getAll, 
+    getSingle, 
+    create, 
+    update, 
+    remove
 }

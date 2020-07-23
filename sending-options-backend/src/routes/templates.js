@@ -3,13 +3,13 @@
 */
 
 
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const bodyParser = require('body-parser');
+const crud = require('../helpers/crud');
+const Template = require('../models/Template');
+
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
-const crud = require('../crud');
-const Template = require('../models/Template');
 
 // CREATES A NEW TEMPLATE
 router.post('/', function (request, response, next) {

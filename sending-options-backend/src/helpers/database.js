@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
 
-exports.startDatabase = function(databaseUrl) {
+function startDatabase(databaseUrl) {
 
     mongoose.connect(databaseUrl);
 
@@ -18,4 +18,8 @@ exports.startDatabase = function(databaseUrl) {
     database.on('error', error => {
         return error;
     });
+}
+
+module.exports = {
+    startDatabase
 }
