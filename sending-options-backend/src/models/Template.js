@@ -11,9 +11,18 @@
 const mongoose = require('mongoose');  
 
 const TemplateSchema = new mongoose.Schema({  
-  name: { type: String, required: true },
-  path: { type: String, required: true },
-  attachment: { type: Boolean, required: true },
+  name: {
+    type: String, 
+    required: true
+  },
+  path: {
+    type: String, 
+    required: true
+  },
+  attachment: {
+    type: Boolean, 
+    required: true
+  },
   fields: [mongoose.Types.ObjectId]
 });
 
