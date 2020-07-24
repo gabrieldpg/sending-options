@@ -30,12 +30,6 @@ async function getAll(request, response, next, model) {
 // get single item from model
 async function getSingle(request, response, next, model) {
     try {
-
-        // if id in params is not a valid object id, throw error
-        if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
-            throw new ErrorHandler(404, 'Invalid ID');
-        }
-
         const resource = await model.findById(request.params.id).exec();
 
         // if no resource found, throw error
@@ -51,9 +45,9 @@ async function getSingle(request, response, next, model) {
 }
 
 // create new item for model
-function create(request, response, next, model) {
+async function create(request, response, next, model) {
     try {
-        const resource = model.create(request.body);
+        const resource = await model.create(request.body);
 
         // if no resource created, throw error
         if (Object.keys(resource).length === 0) {
@@ -73,12 +67,6 @@ function create(request, response, next, model) {
 // update item from model
 async function update(request, response, next, model) {
     try {
-
-        // if id in params is not a valid object id, throw error
-        if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
-            throw new ErrorHandler(404, 'Invalid ID');
-        }
-
         const resource = await model.findByIdAndUpdate(request.params.id, request.body, { new: true }).exec();
 
         // if no resource found, throw error
@@ -100,12 +88,6 @@ async function update(request, response, next, model) {
 // remove item from model
 async function remove(request, response, next, model) {
     try {
-
-        // if id in params is not a valid object id, throw error
-        if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
-            throw new ErrorHandler(404, 'Invalid ID');
-        }
-
         const resource = await model.findByIdAndRemove(request.params.id).exec();
 
         // if no resource found, throw error
