@@ -11,12 +11,13 @@ const templates = require('./templates');
 router.use('/fields', fields);
 router.use('/templates', templates);
 
-router.use('/', function (request, response) {
-    response.status(200).json({ message: 'Server is connected' });
-});
-
 router.all('*', function (request, response) {
   throw new ErrorHandler(400, 'Invalid route');
+});
+
+// NOT WORKING, HOMEPAGE THROWS ERROR FROM ALL ABOVE
+router.use('/', function (request, response) {
+  response.status(200).json({ message: 'Server is connected' });
 });
 
 module.exports = router;

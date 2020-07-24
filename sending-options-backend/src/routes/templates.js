@@ -6,7 +6,7 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser');
 const crud = require('../helpers/crud');
-const middlewares = require('../middlewares/templatesMiddlewares');
+const { getPathFromName } = require('../middlewares/templatesMiddlewares');
 const Template = require('../models/Template');
 const { validateObjectId } = require('../middlewares/validationMiddlewares');
 
@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 // CREATES A NEW TEMPLATE
-router.post('/', middlewares.getPathFromName, function (request, response, next) {
+router.post('/', getPathFromName, function (request, response, next) {
     crud.create(request, response, next, Template);
 });
 
@@ -34,7 +34,7 @@ router.delete('/:id', validateObjectId, function (request, response, next) {
 });
 
 // UPDATES A SINGLE TEMPLATE IN THE DATABASE
-router.put('/:id', validateObjectId, middlewares.getPathFromName, function (request, response, next) {
+router.put('/:id', validateObjectId, getPathFromName, function (request, response, next) {
     crud.update(request, response, next, Template);
 });
 

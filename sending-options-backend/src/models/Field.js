@@ -9,14 +9,10 @@
 const mongoose = require('mongoose');
 
 const FieldSchema = new mongoose.Schema({  
-  name: {
-    type: String, 
-    required: true
-  },
-  key: {
-    type: String, 
-    required: true
-  }
+
+  name: { type: String, required: true, unique: true, dropDups: true },
+  key: { type: String, required: true, unique: true, dropDups: true }
+
 });
 
 module.exports = mongoose.model('Field', FieldSchema);
