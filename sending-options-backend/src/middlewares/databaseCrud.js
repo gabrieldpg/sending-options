@@ -69,9 +69,25 @@ function remove(model) {
     }
 }
 
+function removeAll(model) {
+    return function(request, response, next) {
+        model.deleteMany({}, function(error, resource) {
+            if (error) {
+                next(new ErrorHandler('MongoDbError', 500, 'Could not delete items', error));
+            } else {
+                return response.status(200).json({
+                    message: 'Items deleted successfully',
+                    resource
+                });
+            }
+        });
+    }
+}
+
 module.exports = {
     create,
     get,
     update,
-    remove
+    remove,
+    removeAll
 }
