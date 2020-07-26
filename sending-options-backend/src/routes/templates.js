@@ -5,37 +5,18 @@
 
 const router = require('express').Router();
 const bodyParser = require('body-parser');
-const crud = require('../helpers/crud');
-const { getPathFromName } = require('../middlewares/templatesMiddlewares');
 const Template = require('../models/Template');
-const { validateObjectId } = require('../middlewares/validationMiddlewares');
+const { getPathFromName } = require('../middlewares/transformation');
+const { validateObjectId } = require('../middlewares/validation');
+const { create, get, update, remove } = require('../middlewares/databaseCrud');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-// CREATES A NEW TEMPLATE
-router.post('/', getPathFromName, function (request, response, next) {
-    crud.create(request, response, next, Template);
-});
-
-// RETURNS ALL THE TEMPLATES IN THE DATABASE
-router.get('/', function (request, response, next) {
-    crud.getAll(request, response, next, Template);
-});
-
-// RETURNS A SINGLE TEMPLATE FROM THE DATABASE
-router.get('/:id', validateObjectId, function (request, response, next) {
-    crud.getSingle(request, response, next, Template);
-});
-
-// DELETES A TEMPLATE FROM THE DATABASE
-router.delete('/:id', validateObjectId, function (request, response, next) {
-    crud.remove(request, response, next, Template);
-});
-
-// UPDATES A SINGLE TEMPLATE IN THE DATABASE
-router.put('/:id', validateObjectId, getPathFromName, function (request, response, next) {
-    crud.update(request, response, next, Template);
-});
+router.post('/', getPathFromName, create(Template));
+router.get('/', get(Template));
+router.get('/:id', validateObjectId, get(Template));
+router.put('/:id', validateObjectId, getPathFromName, update(Template));
+router.delete('/:id', validateObjectId, remove(Template));
 
 module.exports = router;

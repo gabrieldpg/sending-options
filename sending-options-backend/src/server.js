@@ -10,11 +10,8 @@ require('dotenv').config();
 const { startDatabase } = require('./helpers/database');
 const { handleError } = require('./helpers/error');
 
-try {
-    startDatabase(process.env.DB_URL);
-} catch (error) {
-    console.log(error);
-}
+
+startDatabase(process.env.DB_URL);
 
 server.use(morgan('combined'));
 

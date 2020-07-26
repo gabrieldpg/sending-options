@@ -16,7 +16,7 @@ function startDatabase(databaseUrl) {
         console.log('Database connected:', databaseUrl)
     });
     database.on('error', error => {
-        return error;
+        console.error('Error connecting to database', databaseUrl, error);
     });
 }
 

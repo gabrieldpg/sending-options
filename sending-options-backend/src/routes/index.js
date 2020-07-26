@@ -4,20 +4,19 @@
 
 
 const router = require('express').Router();
-const { ErrorHandler } = require('../helpers/error');
 const fields = require('./fields');
+const { ErrorHandler } = require('../helpers/error');
 const templates = require('./templates');
 
 router.use('/fields', fields);
 router.use('/templates', templates);
 
-router.all('*', function (request, response) {
-  throw new ErrorHandler(400, 'Invalid route');
+router.get('/', function (request, response) {
+  response.status(200).json({ message: 'Server is connected' });
 });
 
-// NOT WORKING, HOMEPAGE THROWS ERROR FROM ALL ABOVE
-router.use('/', function (request, response) {
-  response.status(200).json({ message: 'Server is connected' });
+router.use('/*', function (request, response) {
+  throw new ErrorHandler('RoutingError', 400, 'Invalid route');
 });
 
 module.exports = router;

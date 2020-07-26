@@ -11,6 +11,15 @@ function getPathFromName(request, response, next) {
     next();
 }
 
+function getKeyFromName(request, response, next) {
+    // if name exists in body, get key from it by removing spaces
+    if (request.body.name) {
+        request.body.key = request.body.name.replace(/ /g, '');
+    }
+    next();
+}
+
 module.exports = {
-    getPathFromName
+    getPathFromName,
+    getKeyFromName
 }
