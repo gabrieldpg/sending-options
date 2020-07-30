@@ -9,8 +9,8 @@ function App() {
     <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ Home } />
-          <Route path="/:document/:card" component={ SendDocument } />
-          <Route path="/:document" component={ CardOptions } />
+          {/*<Route path="/:document/:card" component={ SendDocument } />
+          <Route path="/:document" component={ CardOptions } />*/}
         </Switch>
     </BrowserRouter>
   );
