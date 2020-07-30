@@ -33,7 +33,7 @@ function validateFieldsExist(request, response, next) {
         }
     });
 
-    Field.find({ _id: [request.body.fields]}, function(error, resource) {
+    Field.find().where('_id').in(request.body.fields).exec(function(error, resource) {
         if (error || !resource || resource && resource.length === 0) {
             next(new ErrorHandler('ValidationError', 403, 'Field id does not match existing Field', error));
         } else {

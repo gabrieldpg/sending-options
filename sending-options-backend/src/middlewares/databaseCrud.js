@@ -11,10 +11,8 @@ function create(model) {
             if (error) { 
                 next(new ErrorHandler('MongoDbError', 400, 'Could not create item', error));
             } else {
-                return response.status(201).json({ 
-                    message: 'Item created successfully', 
-                    resource
-                });
+                request.resource = resource;
+                next();
             }
         });
     }
@@ -28,10 +26,12 @@ function get(model) {
 
             if (error) {
                 next(new ErrorHandler('MongoDbError', 400, 'Could not find item/s', error));
-            } else if (resource.length === 0) {
-                next(new ErrorHandler('EmptyResponseError', 404, 'No items to retrieve / Empty response'));
             } else {
-                return response.status(200).json(resource);
+                if (request.params.id && resource.length === 0) {
+                    next(new ErrorHandler('ParamatersError', 400, 'Could not find item from ID'));
+                }
+                request.resource = resource;
+                next();
             }
         });
     }
@@ -44,10 +44,8 @@ function update(model) {
             if (error) {
                 next(new ErrorHandler('MongoDbError', 400, 'Could not find or update item', error));
             } else {
-                return response.status(201).json({ 
-                    message: 'Item updated successfully', 
-                    resource
-                });
+                request.resource = resource;
+                next();
             }
         });
     }
@@ -60,10 +58,8 @@ function remove(model) {
             if (error) {
                 next(new ErrorHandler('MongoDbError', 400, 'Could not find or delete item', error));
             } else {
-                return response.status(200).json({ 
-                    message: 'Item deleted successfully', 
-                    resource
-                });
+                request.resource = resource;
+                next();
             }
         });
     }
@@ -75,10 +71,8 @@ function removeAll(model) {
             if (error) {
                 next(new ErrorHandler('MongoDbError', 500, 'Could not delete items', error));
             } else {
-                return response.status(200).json({
-                    message: 'Items deleted successfully',
-                    resource
-                });
+                request.resource = resource;
+                next();
             }
         });
     }

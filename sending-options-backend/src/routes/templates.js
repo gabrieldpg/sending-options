@@ -9,15 +9,16 @@ const Template = require('../models/Template');
 const { getPathFromName } = require('../middlewares/transformation');
 const { validateObjectId, validateFieldsExist } = require('../middlewares/validation');
 const { create, get, update, remove, removeAll } = require('../middlewares/databaseCrud');
+const { handleResponse } = require('../middlewares/response');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.post('/', validateFieldsExist, getPathFromName, create(Template));
-router.get('/', get(Template));
-router.get('/:id', validateObjectId, get(Template));
-router.put('/:id', validateObjectId, validateFieldsExist, getPathFromName, update(Template));
-router.delete('/all', removeAll(Template));
-router.delete('/:id', validateObjectId, remove(Template));
+router.post('/', validateFieldsExist, getPathFromName, create(Template), handleResponse(201, 'Template created'));
+router.get('/', get(Template), handleResponse(200, 'Templates retrieved'));
+router.get('/:id', validateObjectId, get(Template), handleResponse(200, 'Template retrieved'));
+router.put('/:id', validateObjectId, validateFieldsExist, getPathFromName, update(Template), handleResponse(201, 'Template updated'));
+router.delete('/all', removeAll(Template), handleResponse(200, 'Templates deleted'));
+router.delete('/:id', validateObjectId, remove(Template), handleResponse(200, 'Template deleted'));
 
 module.exports = router;
