@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/sending-options/config/applicationhost.config
+/.vs/sending-options/CopilotIndices/0.2.1648.49400
+/.vs/sending-options/FileContentIndex
+/.vs/sending-options/v17
+/.vs
